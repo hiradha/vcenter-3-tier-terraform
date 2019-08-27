@@ -1,0 +1,22 @@
+[Unit]
+Description=Tomcat
+After=syslog.target network.target
+
+[Service]
+Type=forking
+
+User=tomcat
+Group=tomcat
+
+Environment=JAVA_HOME=/usr/lib/jvm/default-java
+Environment='JAVA_OPTS=-Djava.awt.headless=true'
+
+Environment=CATALINA_HOME=/tmp/apache-tomcat-8.5.45/
+Environment=CATALINA_BASE=/tmp/apache-tomcat-8.5.45/
+Environment=CATALINA_PID=/tmp/apache-tomcat-8.5.45/temp/tomcat.pid
+
+ExecStart=/tmp/apache-tomcat-8.5.45/bin/catalina.sh start
+ExecStop=/tmp/apache-tomcat-8.5.45/tomcat/bin/catalina.sh stop
+
+[Install]
+WantedBy=multi-user.target

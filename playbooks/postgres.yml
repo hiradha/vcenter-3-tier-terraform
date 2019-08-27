@@ -1,0 +1,20 @@
+---
+- hosts: all
+
+  tasks:
+    - name: ensure postgresql is at the latest version
+      become: yes
+      apt:
+        name: postgresql
+        state: latest
+        update_cache: yes
+    - name: ensure postgresql-client is at the latest version
+      become: yes
+      apt:
+        name: postgresql-client
+        state: latest
+        update_cache: yes
+    - name: start postgresql
+      become: yes
+      service:
+        name: postgresql

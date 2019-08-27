@@ -1,0 +1,55 @@
+---
+- hosts: all
+
+  tasks:
+    - name: Install Default Java (Debian/Ubuntu)
+      apt:
+        name: default-jdk
+        state: present
+
+    - name: Add tomcat group
+      group:
+        name: tomcat
+
+    - name: Add "tomcat" user
+      user:
+        name: tomcat
+        group: tomcat
+        home: /usr/share/tomcat
+        createhome: no
+        system: yes
+
+    - name: Download Tomcat
+      get_url:
+        url: "http://mirrors.gigenet.com/apache/tomcat/tomcat-8/v8.5.45/bin/apache-tomcat-8.5.45.zip"
+        dest: "/tmp/tomcat.zip"
+
+    - name: Extract tomcat archive
+      unarchive:
+        src: "/tmp/tomcat.zip"
+        dest: /tmp/
+        owner: tomcat
+        group: tomcat
+        remote_src: yes
+        creates: /tmp/apache-tomcat-8.5.45/bin
+
+    - name: Change tomcat so it can start
+      file:
+        path: /tmp/apache-tomcat-8.5.45/bin/catalina.sh
+        owner: tomcat
+        group: tomcat
+        mode: '0777'
+
+    - name: Copy tomcat service file
+      template:
+        src: templates/tomcat.service.j2
+        dest: /etc/systemd/system/tomcat.service
+      when: ansible_service_mgr == "systemd"
+
+    - name: Start and enable tomcat
+      service:
+        daemon_reload: yes
+        name: tomcat
+        state: started
+        enabled: yes
+      when: ansible_service_mgr == "systemd"
