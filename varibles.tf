@@ -34,3 +34,12 @@ variable "vsphere_virtual_machine_name_app" {}
 
 # the name of the vsphere virtual machine that is created. empty by default.
 variable "vsphere_virtual_machine_name_database" {}
+
+# your ssh user that can sudo up to root
+variable "ansible_user" {}
+
+# your ssh password for the ansible user above
+variable "ansible_ssh" {}
+
+# your sudo password for the ansible user above
+variable "ansible_sudo" {}

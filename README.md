@@ -3,7 +3,8 @@
 ## Scope
 
 This is an example of a three tier application stack
-using terraform and ansible.
+using `terraform` and `ansible`. This has been tested on
+Debian 10, and only Debian 10.
 
 - nginx frontend
 - tomcat application layer
@@ -18,13 +19,17 @@ vsphere_user = "administrator@vsphere.local"
 vsphere_password = "PASSWORD_HERE"
 vsphere_server = "IP_ADDY_HERE"
 vsphere_datacenter = "datacenter"
-vsphere_datastore = "vsanDatastore"
-vsphere_resource_pool = "cluster1/"
+vsphere_datastore = "vsanDatastore" # or wherever
+vsphere_resource_pool = "cluster1/" # if you have a cluster
 vsphere_network = "NETWORK"
 vsphere_virtual_machine_template = "AWESOME_TEMPLATE"
 vsphere_virtual_machine_name_web = "NAME_WEB_SERVER"
 vsphere_virtual_machine_name_app = "NAME_APP_SERVER"
 vsphere_virtual_machine_name_database = "NAME_DATABASE_SERVER
+ansible_user = "YOUR_ANSIBLE_USER"
+ansible_ssh = "YOUR_ANSIBLE_SSH_PASSWORD"
+ansible_sudo = "YOUR_SUDO_PASSWORD"
+
 ```
 Next, run the following command to pull down the `vcenter` provider:
 
@@ -38,7 +43,7 @@ If everything is good you can run:
 terraform apply
 ```
 
-And the three tier app, `nginx`, `tomcat` and `postgres` will be created.
+And the three tier app, `nginx`, `tomcat` and `postgres` will be created. You will get an output of the three machines with the IPs of each.
 
 If you want to destroy everything go a head and run:
 

@@ -61,13 +61,13 @@ data "vsphere_virtual_machine" "template" {
      connection {
        host = vsphere_virtual_machine.cloned_virtual_machine_web.default_ip_address
        type        = "ssh"
-       user        = "admini"
-       password = "P@ssw0rd!"
+       user        = var.ansible_user
+       password = var.ansible_ssh
      }
    }
 
    provisioner "local-exec" {
-     command = "ansible-playbook -b -u admini -i '${vsphere_virtual_machine.cloned_virtual_machine_web.default_ip_address},' -e 'ansible_user=admini ansible_ssh_pass=P@ssw0rd! ansible_sudo_pass=P@ssw0rd!' playbooks/nginx.yml"
+     command = "ansible-playbook -b -u admini -i '${vsphere_virtual_machine.cloned_virtual_machine_web.default_ip_address},' -e 'ansible_user=${var.ansible_user} ansible_ssh_pass=${var.ansible_ssh} ansible_sudo_pass=${var.ansible_sudo}' playbooks/nginx.yml"
    }
 
  }
@@ -103,13 +103,13 @@ data "vsphere_virtual_machine" "template" {
     connection {
       host = vsphere_virtual_machine.cloned_virtual_machine_app.default_ip_address
       type        = "ssh"
-      user        = "admini"
-      password = "P@ssw0rd!"
+      user        = var.ansible_user
+      password = var.ansible_ssh
     }
   }
 
   provisioner "local-exec" {
-    command = "ansible-playbook -b -u admini -i '${vsphere_virtual_machine.cloned_virtual_machine_app.default_ip_address},' -e 'ansible_user=admini ansible_ssh_pass=P@ssw0rd! ansible_sudo_pass=P@ssw0rd!' playbooks/tomcat.yml"
+    command = "ansible-playbook -b -u admini -i '${vsphere_virtual_machine.cloned_virtual_machine_app.default_ip_address},' -e 'ansible_user=${var.ansible_user} ansible_ssh_pass=${var.ansible_ssh} ansible_sudo_pass=${var.ansible_sudo}' playbooks/tomcat.yml"
   }
  }
 
@@ -144,12 +144,12 @@ resource "vsphere_virtual_machine" "cloned_virtual_machine_database" {
     connection {
       host = vsphere_virtual_machine.cloned_virtual_machine_database.default_ip_address
       type        = "ssh"
-      user        = "admini"
-      password = "P@ssw0rd!"
+      user        = var.ansible_user
+      password = var.ansible_ssh
     }
   }
 
   provisioner "local-exec" {
-    command = "ansible-playbook -b -u admini -i '${vsphere_virtual_machine.cloned_virtual_machine_database.default_ip_address},' -e 'ansible_user=admini ansible_ssh_pass=P@ssw0rd! ansible_sudo_pass=P@ssw0rd!' playbooks/postgres.yml"
+    command = "ansible-playbook -b -u admini -i '${vsphere_virtual_machine.cloned_virtual_machine_database.default_ip_address},' -e 'ansible_user=${var.ansible_user} ansible_ssh_pass=${var.ansible_ssh} ansible_sudo_pass=${var.ansible_sudo}' playbooks/postgres.yml"
   }
 }
